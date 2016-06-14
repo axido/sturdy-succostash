@@ -1,2 +1,4 @@
 # sturdy-succostash
-Exercise logging application
+###Exercise logging application
+
+Super simple stuff.
