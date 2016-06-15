@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <title>Title</title>
+        <meta charset="UTF-8"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    </head>
+    <body>
+        <div>
+            <p>Add a new log to the database.</p>
+            <form method="POST" action="/add">
+                <input type="radio" name="sport" value="running" /> Running<br />
+                <input type="radio" name="sport" value="cycling" /> Cycling<br />
+            
+                <input type="number" name="distance"/>
+                Distance traveled<br />
+            
+                <input type="number" name="duration"/>
+                Duration of exercise<br />
+                
+                <input type="text" name="notes" maxlength="200"/> 
+                Notes<br />
+                
+                <br />
+                <input type="submit" value="Add log"/>
+            </form>
+        </div>
+        
+    </body>
+</html>
