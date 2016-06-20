@@ -9,5 +9,27 @@
     <body>
         <div><h2>Hello Wörld</h2></div>
         <a href="/test">click</a>
+        <br />
+        <table>
+            <tr>
+                <th>id</th>
+                <th>sport</th>
+                <th>duration</th>      
+            </tr>
+            <tr th:each="cardio: ${cardio}">
+                <td th:text="${cardio.id}">identify me</td>
+                <td th:text="${cardio.name}">jogjog</td>
+                <td th:text="${cardio.duration}">long time</td>
+                
+                <td>
+                    <form method="POST" th:action="@{~/delete/{id}(id=${cardio.id})}"> 
+                        <input type="hidden" name="delete" th:value="${cardio.id}"/>
+                        <input type="submit" value="Delete" />
+                    </form>
+                </td>
+            </tr>
+        </table>
+        
+        
     </body>
 </html>

@@ -1,14 +1,14 @@
 
 package wad.logger;
 
-import java.sql.*;
-import java.util.TreeMap;
+import java.util.*;
 import spark.ModelAndView;
 import static spark.Spark.get;
 import static spark.Spark.post;
 import spark.template.thymeleaf.ThymeleafTemplateEngine;
-import wad.logger.dao.Database;
+import wad.logger.dao.*;
 import java.time.LocalDate;
+import wad.logger.domain.*;
 
 /**
  *
@@ -17,11 +17,13 @@ import java.time.LocalDate;
 public class SturdySuccostash {
     
     public static void main(String[] args) throws Exception {
-        //connect to database 
-        Database database = new Database("jdbc:h2:./database;DATABASE_TO_UPPER=false");
+        // connect to database 
+        Database database = new Database("jdbc:h2:~/database;DATABASE_TO_UPPER=false"); //;DATABASE_TO_UPPER=false
+        CardioDao cardioDao = new CardioDao(database);
         
         get("/", (req, res) -> {
             TreeMap<String, Object> data = new TreeMap<>();
+            data.put("cardio", cardioDao.findAll());
             return new ModelAndView(data, "index");
         }, new ThymeleafTemplateEngine());
         
@@ -30,22 +32,34 @@ public class SturdySuccostash {
             return new ModelAndView(data, "test");
         }, new ThymeleafTemplateEngine());
         
+        // delete a record
+        post("/delete/:id", (req, res) -> {
+            Integer id = Integer.parseInt(req.params(":id"));
+            
+            if (id != null) {
+                cardioDao.delete(id);
+            }
+            res.redirect("/");
+            return "";
+        });
+        
+        // add a record
         post("/add", (req, res) -> {
             // get stuff from form, update session table and whatever the exercise was
             String sport = req.queryParams("sport");
-            int distance = Integer.parseInt(req.queryParams("distance"));
+            //int distance = Integer.parseInt(req.queryParams("distance"));
             int duration = Integer.parseInt(req.queryParams("duration"));
-            String notes = req.queryParams("notes");
-            String today = LocalDate.now().toString();
+            //String notes = req.queryParams("notes");
+            //String today = LocalDate.now().toString();
             
             //database.update("INSERT INTO Session (session_date) VALUES (?)", today);
             // just running and cycling for now
             if (sport.equals("running")) {
-                database.update("INSERT INTO Running (distance, duration, notes, session_id) "
-                        + "VALUES (?, ?, ?, ?)", distance, duration, notes, 1);
+                Cardio running = new Cardio(sport, duration);
+                cardioDao.create(running);
             } else {
-                database.update("INSERT INTO Cycling (distance, duration, notes, session_id) "
-                        + "VALUES (?, ?, ?, ?)", distance, duration, notes, 1);
+                Cardio cycling = new Cardio(sport, duration);
+                cardioDao.create(cycling);
             }
             res.redirect("/");
             return "";
