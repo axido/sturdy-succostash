@@ -24,7 +24,7 @@ public class Database<T> {
         try {
             // If database has not yet been created, insert content
             RunScript.execute(conn, new FileReader("database-schema.sql"));
-            RunScript.execute(conn, new FileReader("database-import.sql"));
+            //RunScript.execute(conn, new FileReader("database-import.sql"));
         } catch (Throwable t) {
         }
 
