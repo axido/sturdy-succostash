@@ -1,8 +1,4 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package wad.logger.dao;
 
 import java.sql.*;
@@ -12,7 +8,7 @@ import wad.logger.domain.Cardio;
 
 /**
  *
- * @author oppilas
+ * @author axido
  */
 public class CardioDao implements Dao <Cardio, Integer> {
     
@@ -24,8 +20,8 @@ public class CardioDao implements Dao <Cardio, Integer> {
 
     @Override
     public Cardio create(Cardio t) throws SQLException {
-        database.update("INSERT INTO Cardio (name, duration) VALUES (?, ?)", 
-                t.getName(), t.getDuration());
+        database.update("INSERT INTO Cardio (name, duration, notes) VALUES (?, ?, ?)", 
+                t.getName(), t.getDuration(), t.getNotes());
         return findOne(t.getId());
     }
 
@@ -47,8 +43,17 @@ public class CardioDao implements Dao <Cardio, Integer> {
         Integer id = rs.getInt("id");
         String name = rs.getString("name");
         Integer duration = rs.getInt("duration");
+        //Integer distance = rs.getInt("distance");
+        //String notes = rs.getString("notes");
+        Cardio p;
+        if (rs.getString("notes") != null) {
+            String notes = rs.getString("notes");
+            p = new Cardio(id, name, duration, notes);
+        } else {
+            p = new Cardio(id, name, duration);
+        }
 
-        Cardio p = new Cardio(id, name, duration);
+        
 
         rs.close();
         stmt.close();
@@ -59,7 +64,7 @@ public class CardioDao implements Dao <Cardio, Integer> {
 
     @Override
     public List<Cardio> findAll() throws SQLException {
-        List<Cardio> exercises = database.queryAndCollect("SELECT * FROM Cardio", rs -> new Cardio(rs.getInt("id"), rs.getString("name"), rs.getInt("duration")));
+        List<Cardio> exercises = database.queryAndCollect("SELECT * FROM Cardio", rs -> new Cardio(rs.getInt("id"), rs.getString("name"), rs.getInt("duration"), rs.getString("notes")));
         
         return exercises;        
     }

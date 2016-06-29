@@ -20,6 +20,7 @@
                 <td th:text="${cardio.id}">identify me</td>
                 <td th:text="${cardio.name}">jogjog</td>
                 <td th:text="${cardio.duration}">long time</td>
+                <td th:text="${cardio.notes}">worth noting</td>
                 
                 <td>
                     <form method="POST" th:action="@{~/delete/{id}(id=${cardio.id})}"> 
@@ -29,7 +30,5 @@
                 </td>
             </tr>
         </table>
-        
-        
     </body>
 </html>

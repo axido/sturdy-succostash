@@ -32,6 +32,18 @@ public class SturdySuccostash {
             return new ModelAndView(data, "test");
         }, new ThymeleafTemplateEngine());
         
+        get("/reeni/:item", (req, res) -> {
+            HashMap<String, Object> data = new HashMap<>();
+ 
+            int item = Integer.parseInt(req.params(":item"));
+            //if (!items.containsKey(item)) {
+            //    item = "default";
+            //}
+            Cardio test = cardioDao.findOne(item);
+            data.put("item", test);
+            return new ModelAndView(data, "reeni");
+        }, new ThymeleafTemplateEngine());        
+        
         // delete a record
         post("/delete/:id", (req, res) -> {
             Integer id = Integer.parseInt(req.params(":id"));
@@ -49,16 +61,16 @@ public class SturdySuccostash {
             String sport = req.queryParams("sport");
             //int distance = Integer.parseInt(req.queryParams("distance"));
             int duration = Integer.parseInt(req.queryParams("duration"));
-            //String notes = req.queryParams("notes");
+            String notes = req.queryParams("notes");
             //String today = LocalDate.now().toString();
             
             //database.update("INSERT INTO Session (session_date) VALUES (?)", today);
             // just running and cycling for now
             if (sport.equals("running")) {
-                Cardio running = new Cardio(sport, duration);
+                Cardio running = new Cardio(sport, duration, notes);
                 cardioDao.create(running);
             } else {
-                Cardio cycling = new Cardio(sport, duration);
+                Cardio cycling = new Cardio(sport, duration, notes);
                 cardioDao.create(cycling);
             }
             res.redirect("/");

@@ -19,11 +19,34 @@ public class Cardio {
         this.duration = duration;
     }
     
+    public Cardio(String name, Integer duration, String notes) {
+        this.name = name;
+        this.duration = duration;
+        this.notes = notes;
+    }
+    
     public Cardio(Integer id, String name, Integer duration) {
+    //  this(id, name, duration, null, null);
         this.id = id;
         this.name = name;
         this.duration = duration;
     }
+    
+    //public Cardio(Integer id, String name, Integer duration, Integer distance) {
+    //    this(id, name, duration, distance, null);
+        //this.id = id;
+        //this.name = name;
+        //this.duration = duration;
+        //this.distance = distance;
+    //}
+    
+    public Cardio(Integer id, String name, Integer duration, String notes) {
+        this.id = id;
+        this.name = name;
+        this.duration = duration;
+        //this.distance = distance;
+        this.notes = notes;
+    }    
 
     public Integer getId() {
         return id;
